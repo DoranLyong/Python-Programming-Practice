@@ -7,75 +7,88 @@
 
 [데코레이터]
 - 합성함수를 예쁘게 덮어씌우는 방법 
+
+1. function decorators 
+2. class decorators 
 """
 import functools
 
 
+""" 1. function decorators
+
+@mydecorator 
+def dosomething():
+    pass 
+
+
+mydecorator 함수는 dosomething() 함수를 인수로 받아 
+그 기능을 가져다 쓸 수 있다. 
+
+함수의 이름을 다른 함수의 인수로 전달할 수 있는 이유는 
+Python에서 함수 객체는 일등 시민(first-class citizen)으로 다루기 때문이다. 
+"""
+
 def start_end_decorator(func):
     
     def wrapper():
-        print('Start')
+        
+        print("Start deco")
         func()
-        print('End')
-    return wrapper
+        print("End deco")
+    
+    return wrapper     
 
 
 def print_name():
-    print('Alex')
-
-
-
-def composite1(func1, func2):
-    print_name = func1(func2)
-    print_name()
+    print("python_python")
 
 
 
 @start_end_decorator
-def composite_deco():
-    print("Alex")
+def print_name2():
+    print("python_decorator")
 
 
-#############################
 
-def start_end_decorator_3(func):
-    
+def decorator_func(func):
+
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        print('Start')
+        print("do something")
         result = func(*args, **kwargs)
-        print('End')
+        print("end something")
         return result
+
     return wrapper
 
+@ decorator_func
+def add5(x):
+    return x + 5 
 
-@start_end_decorator_3
-def add_5(x):
-    return x + 5
 
 
-#############################
+
+""" 2. class decorators
+
+"""
+
+
+
 
 
 
 
 if __name__ == "__main__": 
 
-    composite1( start_end_decorator,  print_name )
-    
-    print(end="\n")
+    # 데코레이터가 없다면... 
+    print_name = start_end_decorator(print_name)
+    print_name()
 
-    composite_deco()
 
-    print(end="\n")
+    # 데코레이터가 있다면... 
+    print_name2()
 
-    result = add_5(10)
+    result = add5(15)
     print(result)
-
-    
-    
-
-
-
-
 
 
