@@ -1,4 +1,4 @@
-# Python Application Practice 
+# Python Application Practices
 
 
 
